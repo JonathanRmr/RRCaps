@@ -1,0 +1,177 @@
+[
+    {
+        "id": 1,
+        "name": "Gorra Negra Clásica",
+        "description": "Gorra negra con visera curva, diseño clásico.",
+        "price": 45000,
+        "image": "/images/gorra-negra.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Gorra Roja Snapback",
+        "description": "Gorra roja estilo snapback con logo bordado.",
+        "price": 50000,
+        "image": "/images/gorra-roja.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Gorra Azul Marino",
+        "description": "Gorra azul marino con ajuste ajustable.",
+        "price": 48000,
+        "image": "/images/gorra-azul.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Gorra Blanca con Diseño",
+        "description": "Gorra blanca con estampado floral en el frente.",
+        "price": 52000,
+        "image": "/images/gorra-blanca.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Gorra Verde Militar",
+        "description": "Gorra verde militar con cierre trasero de velcro.",
+        "price": 47000,
+        "image": "/images/gorra-verde.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Gorra Gris con Logo",
+        "description": "Gorra gris con logo minimalista en el frente.",
+        "price": 49000,
+        "image": "/images/gorra-gris.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Gorra Amarilla Brillante",
+        "description": "Gorra amarilla brillante para un look llamativo.",
+        "price": 51000,
+        "image": "/images/gorra-amarilla.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Gorra Negra con Rayas",
+        "description": "Gorra negra con rayas blancas en la visera.",
+        "price": 46000,
+        "image": "/images/gorra-negra-rayas.jpg"
+    },
+    {
+        "id": 9,
+        "name": "Gorra Rosa Pastel",
+        "description": "Gorra rosa pastel con cierre ajustable.",
+        "price": 53000,
+        "image": "/images/gorra-rosa.jpg"
+    },
+    {
+        "id": 10,
+        "name": "Gorra Morada con Bordado",
+        "description": "Gorra morada con bordado dorado en el frente.",
+        "price": 55000,
+        "image": "/images/gorra-morada.jpg"
+    },
+    {
+        "id": 11,
+        "name": "Gorra Café Vintage",
+        "description": "Gorra café con estilo vintage y costuras expuestas.",
+        "price": 54000,
+        "image": "/images/gorra-cafe.jpg"
+    },
+    {
+        "id": 12,
+        "name": "Gorra Naranja Fluorescente",
+        "description": "Gorra naranja fluorescente para mayor visibilidad.",
+        "price": 56000,
+        "image": "/images/gorra-naranja.jpg"
+    },
+    {
+        "id": 13,
+        "name": "Gorra Negra con Reflejos",
+        "description": "Gorra negra con detalles reflectantes para la noche.",
+        "price": 58000,
+        "image": "/images/gorra-negra-reflectante.jpg"
+    },
+    {
+        "id": 14,
+        "name": "Gorra Azul Cielo",
+        "description": "Gorra azul cielo con visera plana.",
+        "price": 47000,
+        "image": "/images/gorra-azul-cielo.jpg"
+    },
+    {
+        "id": 15,
+        "name": "Gorra Blanca con Frase",
+        "description": "Gorra blanca con frase inspiracional en el frente.",
+        "price": 52000,
+        "image": "/images/gorra-blanca-frase.jpg"
+    },
+    {
+        "id": 16,
+        "name": "Gorra Negra de Cuero",
+        "description": "Gorra negra hecha de cuero sintético.",
+        "price": 65000,
+        "image": "/images/gorra-negra-cuero.jpg"
+    },
+    {
+        "id": 17,
+        "name": "Gorra Deportiva Negra",
+        "description": "Gorra negra transpirable para uso deportivo.",
+        "price": 50000,
+        "image": "/images/gorra-deportiva-negra.jpg"
+    },
+    {
+        "id": 18,
+        "name": "Gorra de Lana Invierno",
+        "description": "Gorra de lana para climas fríos.",
+        "price": 60000,
+        "image": "/images/gorra-lana.jpg"
+    },
+    {
+        "id": 19,
+        "name": "Gorra de Pesca",
+        "description": "Gorra con protección UV para pesca.",
+        "price": 62000,
+        "image": "/images/gorra-pesca.jpg"
+    },
+    {
+        "id": 20,
+        "name": "Gorra de Béisbol Clásica",
+        "description": "Gorra de béisbol con diseño clásico y logo.",
+        "price": 55000,
+        "image": "/images/gorra-beisbol.jpg"
+    },
+    {
+        "id": 21,
+        "name": "Gorra de Camuflaje",
+        "description": "Gorra con estampado de camuflaje militar.",
+        "price": 57000,
+        "image": "/images/gorra-camuflaje.jpg"
+    },
+    {
+        "id": 22,
+        "name": "Gorra de Denim",
+        "description": "Gorra hecha de tela de denim resistente.",
+        "price": 59000,
+        "image": "/images/gorra-denim.jpg"
+    },
+    {
+        "id": 23,
+        "name": "Gorra de Pana",
+        "description": "Gorra de pana con ajuste cómodo.",
+        "price": 54000,
+        "image": "/images/gorra-pana.jpg"
+    },
+    {
+        "id": 24,
+        "name": "Gorra con LED",
+        "description": "Gorra negra con luces LED integradas.",
+        "price": 70000,
+        "image": "/images/gorra-led.jpg"
+    },
+    {
+        "id": 25,
+        "name": "Gorra de Verano",
+        "description": "Gorra ligera y transpirable para verano.",
+        "price": 48000,
+        "image": "/images/gorra-verano.jpg"
+    }
+]
