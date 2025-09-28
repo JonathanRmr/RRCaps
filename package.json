@@ -1,14 +1,23 @@
 {
   "name": "rrcaps",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "API REST para gestión de gorras deportivas con categorías",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node scripts/seedData.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "api",
+    "gorras",
+    "deportes",
+    "mongodb",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
