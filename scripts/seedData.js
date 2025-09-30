@@ -3,6 +3,11 @@ const dotenv = require('dotenv');
 const Category = require('../models/category');
 const Cap = require('../models/cap');
 const User = require('../models/user');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Configurar variables de entorno
 dotenv.config();
