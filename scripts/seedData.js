@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Category = require('../models/category');
 const Cap = require('../models/cap');
+const User = require('../models/user');
 
 // Configurar variables de entorno
 dotenv.config();
@@ -55,7 +56,30 @@ const categoriesData = [
     }
 ];
 
-// Función para conectar a la base de datos
+// Función para crear admin inicial
+const seedAdmin = async () => {
+    try {
+        // Limpiar usuarios existentes
+        await User.deleteMany({});
+        console.log('🗑️ Usuarios existentes eliminados');
+
+        // Crear admin por defecto
+        const adminUser = new User({
+            name: 'Administrador RRCaps',
+            email: 'admin@rrcaps.com',
+            password: 'admin123',
+            role: 'admin'
+        });
+
+        await adminUser.save();
+        console.log('✅ Usuario admin creado: admin@rrcaps.com / admin123');
+        
+        return adminUser;
+    } catch (error) {
+        console.error('❌ Error al crear admin:', error);
+        throw error;
+    }
+};
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI, {
@@ -205,11 +229,13 @@ const seedDatabase = async () => {
         
         await connectDB();
         
+        const admin = await seedAdmin();
         const categories = await seedCategories();
         const caps = await seedCaps(categories);
         
         console.log('✅ Base de datos poblada exitosamente');
-        console.log(`📊 Resumen: ${categories.length} categorías, ${caps.length} gorras`);
+        console.log(`📊 Resumen: 1 admin, ${categories.length} categorías, ${caps.length} gorras`);
+        console.log('🔑 Login admin: admin@rrcaps.com / admin123');
         
         process.exit(0);
     } catch (error) {
