@@ -7,6 +7,12 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
+// ========== SWAGGER IMPORTS ==========
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+// =====================================
+
 // Configuración de variables de entorno
 dotenv.config();
 
@@ -21,6 +27,14 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// ========== RUTA DE SWAGGER ==========
+// Documentación interactiva de la API
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: "RRCaps API Docs"
+}));
+// =====================================
+
 // Rutas principales
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -32,6 +46,7 @@ app.get('/api', (req, res) => {
     res.json({
         message: '🧢 API de Gorras - RRCaps',
         version: '2.0.0',
+        documentation: 'http://localhost:' + PORT + '/api-docs', // ← Agregado enlace a Swagger
         endpoints: {
             auth: '/api/auth',
             admin: '/api/admin',
@@ -55,14 +70,16 @@ app.get('/api', (req, res) => {
 app.get('/', (req, res) => {
     res.json({
         message: '🧢 Bienvenido a RRCaps API',
-        documentation: '/api'
+        documentation: 'http://localhost:' + PORT + '/api-docs', // ← Agregado enlace a Swagger
+        apiInfo: '/api'
     });
 });
 
 // Inicio del servidor
 app.listen(PORT, () => {
     console.log(`🟢 Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`📚 Documentación disponible en http://localhost:${PORT}/api`);
+    console.log(`📚 Documentación API: http://localhost:${PORT}/api`);
+    console.log(`📖 Swagger UI: http://localhost:${PORT}/api-docs`); // ← Nuevo mensaje
 });
 
 module.exports = app;

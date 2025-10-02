@@ -1,0 +1,321 @@
+openapi: 3.0.0
+info:
+  title: RRCaps API
+  description: API para gestión de gorras deportivas
+  version: 2.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Category:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        league:
+          type: string
+        city:
+          type: string
+
+    Cap:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        image:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        stock:
+          type: number
+        size:
+          type: string
+        material:
+          type: string
+
+paths:
+  # ========== AUTENTICACIÓN ==========
+  /api/auth/login:
+    post:
+      summary: Login de administrador
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@rrcaps.com
+                password:
+                  type: string
+                  example: admin123
+      responses:
+        '200':
+          description: Login exitoso, retorna token JWT
+
+  /api/auth/register:
+    post:
+      summary: Registrar nuevo admin
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Admin creado
+
+  # ========== GORRAS ==========
+  /api/caps:
+    get:
+      summary: Obtener todas las gorras
+      tags: [Caps]
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Lista de gorras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cap'
+
+    post:
+      summary: Crear nueva gorra (requiere admin)
+      tags: [Caps]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                category:
+                  type: string
+                stock:
+                  type: number
+              example:
+                name: "Gorra Yankees"
+                price: 65000
+                category: "507f1f77bcf86cd799439011"
+                stock: 20
+      responses:
+        '201':
+          description: Gorra creada
+
+  /api/caps/{id}:
+    get:
+      summary: Obtener gorra por ID
+      tags: [Caps]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Gorra encontrada
+
+    put:
+      summary: Actualizar gorra (requiere admin)
+      tags: [Caps]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                stock:
+                  type: number
+      responses:
+        '200':
+          description: Gorra actualizada
+
+    delete:
+      summary: Eliminar gorra (requiere admin)
+      tags: [Caps]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Gorra eliminada
+
+  # ========== CATEGORÍAS ==========
+  /api/categories:
+    get:
+      summary: Obtener todas las categorías
+      tags: [Categories]
+      responses:
+        '200':
+          description: Lista de categorías
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+
+    post:
+      summary: Crear categoría (requiere admin)
+      tags: [Categories]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                league:
+                  type: string
+                city:
+                  type: string
+              example:
+                name: "Boston Red Sox"
+                league: "MLB"
+                city: "Boston"
+      responses:
+        '201':
+          description: Categoría creada
+
+  /api/categories/{id}:
+    get:
+      summary: Obtener categoría por ID
+      tags: [Categories]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Categoría encontrada
+
+    put:
+      summary: Actualizar categoría (requiere admin)
+      tags: [Categories]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Categoría actualizada
+
+    delete:
+      summary: Eliminar categoría (requiere admin)
+      tags: [Categories]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Categoría eliminada
+
+  # ========== ADMIN ==========
+  /api/admin/stats:
+    get:
+      summary: Estadísticas del sistema
+      tags: [Admin]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Estadísticas generales
+
+  /api/admin/dashboard:
+    get:
+      summary: Dashboard de administrador
+      tags: [Admin]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Información del dashboard
