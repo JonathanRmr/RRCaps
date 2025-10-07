@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { requireAdmin } = require('../middleware/auth');
 const { 
     getAllCategories, 
     getCategoryById, 
@@ -10,13 +11,13 @@ const {
     getCategoryStats
 } = require('../controllers/categoryController');
 
-// Rutas de categorías (orden importante: rutas específicas antes que parámetros)
-router.get('/stats', getCategoryStats);               // Obtener estadísticas de categorías
-router.post('/', createCategory);                     // Crear nueva categoría
-router.get('/', getAllCategories);                    // Obtener todas las categorías
-router.get('/:id/caps', getCategoryWithCaps);         // Obtener categoría con sus gorras
-router.get('/:id', getCategoryById);                  // Obtener categoría por ID
-router.put('/:id', updateCategory);                   // Actualizar categoría
-router.delete('/:id', deleteCategory);                // Eliminar categoría
+router.get('/stats', getCategoryStats);
+router.get('/', getAllCategories);
+router.get('/:id/caps', getCategoryWithCaps);
+router.get('/:id', getCategoryById);
+
+router.post('/', requireAdmin, createCategory);
+router.put('/:id', requireAdmin, updateCategory);
+router.delete('/:id', requireAdmin, deleteCategory);
 
 module.exports = router;

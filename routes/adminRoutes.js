@@ -4,16 +4,12 @@ const { requireAdmin } = require('../middleware/auth');
 const Cap = require('../models/cap');
 const Category = require('../models/category');
 
-// Todas las rutas requieren autenticación de admin
 router.use(requireAdmin);
 
-// Estadísticas avanzadas para admin
 router.get('/stats', async (req, res) => {
     try {
         const totalCaps = await Cap.countDocuments();
         const totalCategories = await Category.countDocuments();
-        
-        // Gorras por categoría
         const capsByCategory = await Cap.aggregate([
             {
                 $lookup: {
@@ -39,20 +35,14 @@ router.get('/stats', async (req, res) => {
                 $sort: { count: -1 }
             }
         ]);
-
-        // Gorras con stock bajo (menos de 5)
         const lowStockCaps = await Cap.find({ stock: { $lt: 5, $gte: 0 } })
             .populate('category', 'name')
             .select('name price stock category')
             .sort({ stock: 1 });
-
-        // Gorras sin stock
         const outOfStockCaps = await Cap.find({ stock: 0 })
             .populate('category', 'name')
             .select('name price category')
             .sort({ name: 1 });
-
-        // Precios promedio, máximo y mínimo
         const priceStats = await Cap.aggregate([
             {
                 $group: {
@@ -63,7 +53,6 @@ router.get('/stats', async (req, res) => {
                 }
             }
         ]);
-
         res.json({
             summary: {
                 totalCaps,
@@ -77,7 +66,6 @@ router.get('/stats', async (req, res) => {
             priceStats: priceStats[0] || { avgPrice: 0, minPrice: 0, maxPrice: 0 },
             lastUpdated: new Date()
         });
-
     } catch (error) {
         console.error('Error en estadísticas de admin:', error);
         res.status(500).json({
@@ -87,18 +75,15 @@ router.get('/stats', async (req, res) => {
     }
 });
 
-// Dashboard de actividad reciente (simulado - en producción vendría de logs)
 router.get('/dashboard', async (req, res) => {
     try {
         const recentCaps = await Cap.find()
             .populate('category', 'name')
             .sort({ updatedAt: -1 })
             .limit(5);
-
         const recentCategories = await Category.find()
             .sort({ updatedAt: -1 })
             .limit(3);
-
         res.json({
             message: '📊 Dashboard de administrador',
             admin: {
@@ -115,7 +100,6 @@ router.get('/dashboard', async (req, res) => {
                 { action: 'Ver estadísticas', endpoint: 'GET /api/admin/stats' }
             ]
         });
-
     } catch (error) {
         console.error('Error en dashboard:', error);
         res.status(500).json({
@@ -125,19 +109,15 @@ router.get('/dashboard', async (req, res) => {
     }
 });
 
-// Operaciones masivas - Actualizar stock de múltiples gorras
 router.put('/bulk-update-stock', async (req, res) => {
     try {
-        const { updates } = req.body; // Array de { id, stock }
-        
+        const { updates } = req.body;
         if (!Array.isArray(updates) || updates.length === 0) {
             return res.status(400).json({
                 message: '❌ Se requiere un array de actualizaciones'
             });
         }
-
         const results = [];
-        
         for (const update of updates) {
             if (!update.id || update.stock === undefined) {
                 results.push({
@@ -147,14 +127,12 @@ router.put('/bulk-update-stock', async (req, res) => {
                 });
                 continue;
             }
-
             try {
                 const updatedCap = await Cap.findByIdAndUpdate(
                     update.id,
                     { stock: update.stock },
                     { new: true }
                 ).populate('category', 'name');
-
                 if (updatedCap) {
                     results.push({
                         id: update.id,
@@ -176,10 +154,8 @@ router.put('/bulk-update-stock', async (req, res) => {
                 });
             }
         }
-
         const successCount = results.filter(r => r.success).length;
         const errorCount = results.filter(r => !r.success).length;
-
         res.json({
             message: `✅ Actualización masiva completada: ${successCount} exitosas, ${errorCount} fallidas`,
             results,
@@ -189,7 +165,6 @@ router.put('/bulk-update-stock', async (req, res) => {
                 failed: errorCount
             }
         });
-
     } catch (error) {
         console.error('Error en actualización masiva:', error);
         res.status(500).json({

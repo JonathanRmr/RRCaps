@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { requireAdmin } = require('../middleware/auth');
 const { 
     createCap, 
     getAllCaps, 
@@ -10,13 +11,13 @@ const {
     searchCaps
 } = require('../controllers/capController');
 
-// Rutas principales de gorras
-router.get('/search', searchCaps);                    // Buscar gorras (debe ir antes que /:id)
-router.post('/', createCap);                          // Crear nueva gorra
-router.get('/', getAllCaps);                          // Obtener todas las gorras (con filtros)
-router.get('/category/:categoryId', getCapsByCategory); // Obtener gorras por categoría
-router.get('/:id', getCapById);                       // Obtener gorra por ID
-router.put('/:id', updateCap);                        // Actualizar gorra
-router.delete('/:id', deleteCap);                     // Eliminar gorra
+router.get('/search', searchCaps);
+router.get('/', getAllCaps);
+router.get('/category/:categoryId', getCapsByCategory);
+router.get('/:id', getCapById);
+
+router.post('/', requireAdmin, createCap);
+router.put('/:id', requireAdmin, updateCap);
+router.delete('/:id', requireAdmin, deleteCap);
 
 module.exports = router;
